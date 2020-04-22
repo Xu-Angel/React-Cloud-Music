@@ -4,7 +4,7 @@ import Home from '../page/Home';
 import Recommend from '../page/Recommend';
 import Singers from '../page/Singers';
 import Rank from '../page/Rank';
-
+import Album from '../page/Album'
 export default [
   {
     path: "/",
@@ -19,7 +19,13 @@ export default [
       },
       {
         path: "/recommend",
-        component: Recommend
+        component: Recommend,
+        routes: [
+          {
+            path: "/recommend/:id",
+            component: Album
+          }
+        ]
       },
       {
         path: "/singers",
@@ -27,7 +33,14 @@ export default [
       },
       {
         path: "/rank",
-        component: Rank
+        component: Rank,
+        key: "rank", // 详情统一页面 添加标志
+        routes: [
+          {
+            path: "/rank/:id",
+            component: Album
+          }
+        ]
       }
     ]
   }
