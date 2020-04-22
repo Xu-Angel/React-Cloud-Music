@@ -1,5 +1,5 @@
-import React from 'react';
-import { Redirect } from "react-router-dom";
+// import React from 'react';
+// import { Redirect } from "react-router-dom";
 import Home from '../page/Home/index';
 import Recommend from '../page/Recommend';
 import Singers from '../page/Singers';
