@@ -1,14 +1,14 @@
-import React from 'react'
-import { renderRoutes } from "react-router-config"
+import React from 'react';
+import { renderRoutes } from "react-router-config";
 import {
   Top,
   Tab,
   TabItem,
-} from './style'
-import { NavLink } from 'react-router-dom'//利用NavLink组件进行路由跳转
+} from './style';
+import { NavLink } from 'react-router-dom';//利用NavLink组件进行路由跳转
 
 function Home(props){
-  const { route } = props
+  const { route } = props;
 
   return (
     <div>
@@ -24,7 +24,7 @@ function Home(props){
       </Tab>
       { renderRoutes(route.routes) }
     </div>
-  )
+  );
 }
  
-export default React.memo(Home)
+export default React.memo(Home);

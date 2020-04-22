@@ -5,6 +5,7 @@ import { getCount } from "../../api/utils";
 
 function RecommendList(props) {
   const list = props.recommendList || []
+  console.log(list, 'oo');
   return (
     <ListWrapper>
       <h1 className="title">推荐歌单</h1>
