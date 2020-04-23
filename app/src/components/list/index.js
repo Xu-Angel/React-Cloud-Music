@@ -5,17 +5,15 @@ import { getCount } from "../../api/utils";
 import { withRouter } from 'react-router-dom';
 
 function RecommendList(props) {
-  const list = props.recommendList || []
   const enterDetail = (id) => {
     props.history.push(`/recommend/${id}`);
   }
-  console.log(list, 'oo');
   return (
     <ListWrapper>
       <h1 className="title">推荐歌单</h1>
       <List>
         {
-          list.map(item => (
+          props.recommendList.map(item => (
             <ListItem key={item.id} onClick={() => enterDetail(item.id)}>
                <div className="img_wrapper">
                   <div className="decorate"></div>

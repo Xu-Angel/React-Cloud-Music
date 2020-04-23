@@ -18,7 +18,7 @@ export default [
         )
       },
       {
-        path: "/recommend",
+        path: "/recommend/",
         component: Recommend,
         routes: [
           {

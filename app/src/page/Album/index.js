@@ -34,22 +34,21 @@ function Album(props) {
   }, []);
 
   const handleScroll = useCallback((pos) => {
-    console.log('cd')
-    // let minScrollY = -HEADER_HEIGHT;
-    // let percent = Math.abs(pos.y / minScrollY);
-    // let headerDom = headerEl.current;
-    // //滑过顶部的高度开始变化
-    // if (pos.y < minScrollY) {
-    //   headerDom.style.backgroundColor = style["theme-color"];
-    //   headerDom.style.opacity = Math.min(1, (percent - 1) / 2);
-    //   setTitle(currentAlbum.name);
-    //   setIsMarquee(true);
-    // } else {
-    //   headerDom.style.backgroundColor = "";
-    //   headerDom.style.opacity = 1;
-    //   setTitle("歌单");
-    //   setIsMarquee(false);
-    // }
+    let minScrollY = -HEADER_HEIGHT;
+    let percent = Math.abs(pos.y / minScrollY);
+    let headerDom = headerEl.current;
+    //滑过顶部的高度开始变化
+    if (pos.y < minScrollY) {
+      headerDom.style.backgroundColor = style["theme-color"];
+      headerDom.style.opacity = Math.min(1, (percent - 1) / 2);
+      setTitle(currentAlbum.name);
+      setIsMarquee(true);
+    } else {
+      headerDom.style.backgroundColor = "";
+      headerDom.style.opacity = 1;
+      setTitle("歌单");
+      setIsMarquee(false);
+    }
   }, [currentAlbum]);
 
   const renderTopDesc = () => {
@@ -168,11 +167,12 @@ function Album(props) {
   )
 }
 
+// 映射Redux全局的state到组件的props上
 const mapStateToProps = (state) => ({
   currentAlbum: state.getIn(['album', 'currentAlbum']),
   enterLoading: state.getIn(['album', 'enterLoading']),
 });
-
+// 映射dispatch到props上
 const mapDispatchToProps = (dispatch) => {
   return {
     getAlbumDataDispatch(id) {
@@ -182,4 +182,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Album))
+// 将ui组件包装成容器组件
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Album));

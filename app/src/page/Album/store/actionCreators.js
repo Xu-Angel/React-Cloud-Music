@@ -15,6 +15,7 @@ export const changeEnterLoading = (data) => ({
 export const getAlbumList = id => dispacth => {
   getAlbumDetailRequest(id).then(res => {
     const data = res.playlist
+    console.log(data, 'albumdata');
     dispacth(changeCurrentAlbum(data))
     dispacth(changeEnterLoading(false))
   }).catch(() => {
