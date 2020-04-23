@@ -1,12 +1,13 @@
-import styled from 'styled-components'
-import style from '../../assets/global-style'
+import styled from 'styled-components';
+import style from '../../assets/global-style';
 
 export const SliderContainer = styled.div`
-    position: relative;
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
   margin: auto;
+  overflow: hidden;
   .before{
     position: absolute;
     top: -300px;

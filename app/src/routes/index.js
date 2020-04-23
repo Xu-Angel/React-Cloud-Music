@@ -1,10 +1,12 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
-import Home from '../page/Home';
 import Recommend from '../page/Recommend';
 import Singers from '../page/Singers';
 import Rank from '../page/Rank';
-import Album from '../page/Album'
+import Home from '../page/Home';
+import Album from '../page/Album';
+import Singer from '../page/Singer';
+
 export default [
   {
     path: "/",
@@ -29,19 +31,25 @@ export default [
       },
       {
         path: "/singers",
-        component: Singers
+        component: Singers,
+        routes: [
+          {
+            path: '/singers/:id',
+            component: Singer
+          }
+        ]
       },
       {
-        path: "/rank",
+        path: "/rank/",
         component: Rank,
-        key: "rank", // 详情统一页面 添加标志
+        key: "rank",
         routes: [
           {
             path: "/rank/:id",
             component: Album
           }
         ]
-      }
+      },
     ]
   }
 ]

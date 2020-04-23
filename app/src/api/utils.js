@@ -31,7 +31,6 @@ export const filterIndex = rankList => {
   }
 };
 
-
 //处理歌手列表拼接歌手名字
 export const getName = list => {
   let str = "";
