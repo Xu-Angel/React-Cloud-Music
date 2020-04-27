@@ -4,6 +4,7 @@ import { reducer as singersReducer } from '../page/Singers/store/index';
 import { reducer as rankReducer } from '../page/Rank/store/index';
 import { reducer as albumReducer } from '../page/Album/store/index';
 import { reducer as singerInfoReducer } from '../page/Singer/store/index';
+import { reducer as playerReducer } from "../page/Player/store/index";
 
 export default combineReducers({
   // 之后开发具体功能模块的时候添加reducer
@@ -11,5 +12,6 @@ export default combineReducers({
   singers: singersReducer ,
   rank: rankReducer,
   album: albumReducer,
-  singerInfo: singerInfoReducer
+  singerInfo: singerInfoReducer,
+  player: playerReducer
 });

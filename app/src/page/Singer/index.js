@@ -9,6 +9,7 @@ import SongsList from "../SongsList";
 import { connect } from 'react-redux';
 import Loading from "./../../baseUI/loading/index";
 import { getSingerInfo, changeEnterLoading } from "./store/actionCreators";
+import MusicNote from "../../baseUI/music-note"
 
 function Singer(props) {
   const initialHeight = useRef(0);
@@ -18,6 +19,7 @@ function Singer(props) {
     artist: immutableArtist, 
     songs: immutableSongs, 
     loading,
+    songsCount
   } = props;
   
   const { getSingerDataDispatch } = props;
@@ -31,6 +33,7 @@ function Singer(props) {
   const songScroll = useRef();
   const header = useRef();
   const layer = useRef();
+  const musicNoteRef = useRef();
 
   //往上偏移的尺寸，露出圆角
   const OFFSET = 5;
@@ -84,13 +87,18 @@ function Singer(props) {
       imageDOM.style.paddingTop = 0;
       imageDOM.style.zIndex = 99;
     }
-  }, [])
+  })
 
   const setShowStatusFalse = useCallback(() => {
     setShowStatus(false);
-  }, []);
+  });
+
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
 
   return (
+    /* https://reactcommunity.org/react-transition-group/css-transition */
     <CSSTransition
       in={showStatus}
       timeout={300}
@@ -99,7 +107,7 @@ function Singer(props) {
       unmountOnExit
       onExited={() => props.history.goBack()}
     >
-      <Container>
+       <Container play={songsCount}>
         <Header
           handleClick={setShowStatusFalse}
           title={artist.name}
@@ -118,6 +126,7 @@ function Singer(props) {
             <SongsList
               songs={songs}
               showCollect={false}
+              musicAnimation={musicAnimation}
             ></SongsList>
           </Scroll>
         </SongListWrapper>
@@ -132,6 +141,7 @@ const mapStateToProps = state => ({
   artist: state.getIn(["singerInfo", "artist"]),
   songs: state.getIn(["singerInfo", "songsOfArtist"]),
   loading: state.getIn(["singerInfo", "loading"]),
+  songsCount: state.getIn(['player', 'playList']).size
 });
 // 映射dispatch到props上
 const mapDispatchToProps = dispatch => {
