@@ -17,6 +17,7 @@ const List = styled.div`
     margin-right: 5px;
     color: grey;
     font-size: ${style["font-size-m"]};
+    vertical-align: middle;
   }
 `
 const ListItem = styled.span`

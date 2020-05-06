@@ -23,10 +23,9 @@ const HeaderContainer = styled.div`
     font-weight: 700;
   }
 `
-// 处理函数子组件中拿不到ref的问题,所以用forwardRef
+// 处理函数组件拿不到ref的问题,所以用forwardRef
 const Header = React.forwardRef((props, ref) => {
-  const { handleClick, title, isMarquee } = props;
-  console.log(ref, 'son');
+  const { handleClick, title, isMarquee} = props;
   return (
     <HeaderContainer ref={ref}>
       <i className="iconfont back"  onClick={handleClick}>&#xe655;</i>

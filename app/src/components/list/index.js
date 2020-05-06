@@ -6,7 +6,7 @@ import {
 } from './style';
 import LazyLoad from "react-lazyload";
 import { getCount } from "../../api/utils";
-import { withRouter } from 'react-router-dom';// 用到路由  包裹一层
+import { withRouter } from 'react-router-dom';
 
 function RecommendList(props) {
   const enterDetail = (id) => {

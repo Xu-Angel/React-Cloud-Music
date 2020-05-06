@@ -9,7 +9,7 @@ import SongsList from "../SongsList";
 import { connect } from 'react-redux';
 import Loading from "./../../baseUI/loading/index";
 import { getSingerInfo, changeEnterLoading } from "./store/actionCreators";
-import MusicNote from "../../baseUI/music-note"
+import MusicNote from "../../baseUI/music-note";
 
 function Singer(props) {
   const initialHeight = useRef(0);
@@ -37,7 +37,7 @@ function Singer(props) {
 
   //往上偏移的尺寸，露出圆角
   const OFFSET = 5;
-
+  
   useEffect(() => {
     const id = props.match.params.id;
     getSingerDataDispatch(id);
@@ -87,18 +87,17 @@ function Singer(props) {
       imageDOM.style.paddingTop = 0;
       imageDOM.style.zIndex = 99;
     }
-  })
+  }, [])
 
   const setShowStatusFalse = useCallback(() => {
     setShowStatus(false);
-  });
+  }, []);
 
   const musicAnimation = (x, y) => {
     musicNoteRef.current.startAnimation({ x, y });
   };
 
   return (
-    /* https://reactcommunity.org/react-transition-group/css-transition */
     <CSSTransition
       in={showStatus}
       timeout={300}
@@ -107,7 +106,7 @@ function Singer(props) {
       unmountOnExit
       onExited={() => props.history.goBack()}
     >
-       <Container play={songsCount}>
+      <Container play={songsCount}>
         <Header
           handleClick={setShowStatusFalse}
           title={artist.name}
@@ -131,6 +130,7 @@ function Singer(props) {
           </Scroll>
         </SongListWrapper>
         { loading ? (<Loading></Loading>) : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   )

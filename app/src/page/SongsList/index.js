@@ -15,10 +15,10 @@ const SongsList = React.forwardRef((props, refs)=> {
   const totalCount = songs.length;
 
   const selectItem = (e, index) => {
-    changePlayListDispatch(songs); // 播放歌曲
+    changePlayListDispatch(songs);
     changeSequecePlayListDispatch(songs);
     changeCurrentIndexDispatch(index);
-    musicAnimation(e.nativeEvent.clientX, e.nativeEvent.clientY); // 点击歌曲动画小图
+    musicAnimation(e.nativeEvent.clientX, e.nativeEvent.clientY);
   }
 
   let songList = (list) => {

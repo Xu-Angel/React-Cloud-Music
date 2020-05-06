@@ -10,9 +10,9 @@ import Loading from '../../baseUI/loading/index';
 import { renderRoutes } from 'react-router-config';
 
 function Recommend(props){
-  const { bannerList, recommendList, enterLoading } = props;
+  const { bannerList, recommendList, enterLoading, songsCount } = props;
 
-  const { getBannerDataDispatch, getRecommendListDataDispatch, songsCount } = props;
+  const { getBannerDataDispatch, getRecommendListDataDispatch } = props;
 
   useEffect(() => {
     if(!bannerList.size){
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => ({
   bannerList: state.getIn(['recommend', 'bannerList']),
   recommendList: state.getIn(['recommend', 'recommendList']),
   enterLoading: state.getIn(['recommend', 'enterLoading']),//简单数据类型不需要调用toJS
-  songsCount: state.getIn(['player', 'playList']).size
+  songsCount: state.getIn(['player', 'playList']).size,//尽量减少toJS操作，直接取size属性就代表了list的长度
 });
 // 映射dispatch到props上
 const mapDispatchToProps = (dispatch) => {

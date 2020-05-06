@@ -26,7 +26,7 @@ import { CHANGE_CATEGORY, CHANGE_ALPHA, Data } from './data';
 import { renderRoutes } from 'react-router-config';
 
 function Singers(props) {
-  const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount, songsCount  } = props;
+  const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount, songsCount } = props;
 
   const { getHotSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
 
