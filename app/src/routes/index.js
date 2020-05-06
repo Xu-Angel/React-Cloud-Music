@@ -1,9 +1,12 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
-import Home from '../page/Home';
 import Recommend from '../page/Recommend';
 import Singers from '../page/Singers';
 import Rank from '../page/Rank';
+import Home from '../page/Home';
+import Album from '../page/Album';
+import Singer from '../page/Singer';
+import Search from '../page/Search';
 
 export default [
   {
@@ -18,16 +21,47 @@ export default [
         )
       },
       {
-        path: "/recommend",
-        component: Recommend
+        path: "/recommend/",
+        component: Recommend,
+        routes: [
+          {
+            path: "/recommend/:id",
+            component: Album
+          }
+        ]
       },
       {
         path: "/singers",
-        component: Singers
+        component: Singers,
+        routes: [
+          {
+            path: '/singers/:id',
+            component: Singer
+          }
+        ]
       },
       {
-        path: "/rank",
-        component: Rank
+        path: "/rank/",
+        component: Rank,
+        key: "rank",
+        routes: [
+          {
+            path: "/rank/:id",
+            component: Album
+          }
+        ]
+      },
+      {
+        path: "/album/:id",
+        exact: true,
+        key: "album",
+        component: Album
+      },
+      {
+        path: "/search",
+        exact: true,
+        key: "search",
+        component: Search
       }
     ]
   }
