@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import style from '../../assets/global-style';
 import PropTypes from "prop-types";
 
+
 const HeaderContainer = styled.div`
   position: fixed;
   padding: 5px 10px;
@@ -30,10 +31,11 @@ const Header = React.forwardRef((props, ref) => {
     <HeaderContainer ref={ref}>
       <i className="iconfont back"  onClick={handleClick}>&#xe655;</i>
       {
-        // eslint-disable-next-line 
+        // eslint-disable-next-line
         isMarquee ? <marquee><h1>{title}</h1></marquee>:
         <h1>{title}</h1>
       }
+     
     </HeaderContainer>
   )
 })

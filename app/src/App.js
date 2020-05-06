@@ -1,12 +1,12 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import { GlobalStyle } from  './style'
-import { renderRoutes } from 'react-router-config'
-import { IconStyle } from './assets/iconfont/iconfont'
-import store from './store/index'
-import routes from './routes/index.js'
-import { HashRouter } from 'react-router-dom';
-import { Data } from './page/Singers/data';
+import React from "react";
+import { Provider } from "react-redux";
+import { GlobalStyle } from "./style";
+import { renderRoutes } from "react-router-config";
+import { IconStyle } from "./assets/iconfont/iconfont";
+import store from "./store/index";
+import routes from "./routes/index.js";
+import { HashRouter } from "react-router-dom";
+import "./fix.css";
 
 function App() {
   return (
@@ -14,12 +14,10 @@ function App() {
       <HashRouter>
         <GlobalStyle></GlobalStyle>
         <IconStyle></IconStyle>
-        <Data>
-          { renderRoutes(routes) }
-        </Data>
+        {renderRoutes(routes)}
       </HashRouter>
     </Provider>
-  )
+  );
 }
 
 export default App;

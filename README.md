@@ -1,4 +1,14 @@
-# React-Cloud-Music
+# 
+
+- [api](https://binaryify.github.io/NeteaseCloudMusicApi)
+
+- node:v13.6.0 win10
+
+- [Create React App](https://github.com/facebook/create-react-app)
+
+- [React 16.8打造精美音乐WebApp ](https://github.com/sanyuan0704/react-cloud-music)
+
+## React-Cloud-Music
 
 1、class 组件不再用，全面拥抱 hooks ，统一用函数组件。
 

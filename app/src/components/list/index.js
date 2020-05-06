@@ -5,14 +5,12 @@ import {
   List
 } from './style';
 import LazyLoad from "react-lazyload";
-import { getCount } from "../../api/utils";
 import { withRouter } from 'react-router-dom';
 
 function RecommendList(props) {
   const enterDetail = (id) => {
-    props.history.push(`/recommend/${id}`);
+    props.history.push(`/recommend/${id}`)
   }
-
   return (
     <ListWrapper>
       <h1 className="title">推荐歌单</h1>
@@ -28,7 +26,7 @@ function RecommendList(props) {
                   </LazyLoad>
                   <div className="play_count">
                     <i className="iconfont play">&#xe885;</i>
-                    <span className="count">{getCount(item.playCount)}</span>
+                    <span className="count">{Math.floor(item.playCount/10000)}万</span>
                   </div>
                 </div>
                 <div className="desc">{item.name}</div>
@@ -41,4 +39,4 @@ function RecommendList(props) {
   );
   }
  
-export default React.memo(withRouter(RecommendList));
+export default withRouter(React.memo(RecommendList));

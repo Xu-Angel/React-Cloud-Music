@@ -1,6 +1,6 @@
 import React, {useEffect, useImperativeHandle, useRef, forwardRef} from 'react';
 import styled from 'styled-components';
-import { prefixStyle } from '../../api/utils';
+import { prefixStyle } from './../../api/utils';
 import style from '../../assets/global-style';
 
 const Container = styled.div`
@@ -55,6 +55,7 @@ const MusicNote = forwardRef((props, ref) => {
     // eslint-disable-next-line
   }, []);
 
+  
   const startAnimation = ({x, y}) => {
     for(let i = 0; i < ICON_NUMBER; i++) {
       let domArray = [].slice.call(iconsRef.current.children)
@@ -74,12 +75,11 @@ const MusicNote = forwardRef((props, ref) => {
       }
     }
   };
-  
-  //外界调用的ref方法
+
   useImperativeHandle(ref, () => ({
     startAnimation
   }));
-
+  
   return (
     <Container ref={iconsRef}>
     </Container>

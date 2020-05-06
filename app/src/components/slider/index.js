@@ -17,6 +17,7 @@ function Slider(props) {
           },
           pagination: {el:'.swiper-pagination'},
         });
+        console.log();
         setSliderSwiper(sliderSwiper);
     }
   }, [bannerList.length, sliderSwiper])
@@ -26,7 +27,7 @@ function Slider(props) {
       <div className="slider-container">
         <div className="swiper-wrapper">
           {
-            bannerList.map((slider) => {
+            bannerList.map(slider => {
               return (
                 <div className="swiper-slide" key={slider.imageUrl}>
                   <div className="slider-nav">

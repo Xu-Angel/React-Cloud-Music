@@ -1,26 +1,27 @@
-import React, {useRef, useEffect} from "react";
-import {  getName, formatPlayTime } from "../../../api/utils";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { CSSTransition } from "react-transition-group";
+import animations from "create-keyframe-animation";
+import ProgressBar from "../../../baseUI/progress-bar/index";
+import Scroll from "../../../baseUI/scroll/index";
+import { playMode, list } from "../../../api/config";
+import { prefixStyle, formatPlayTime, getName } from "../../../api/utils";
 import {
   NormalPlayerContainer,
   Top,
   Middle,
   Bottom,
+  ProgressWrapper,
   Operators,
   CDWrapper,
-  ProgressWrapper,
   LyricContainer,
-  LyricWrapper
+  LyricWrapper,
+  List,
+  ListItem
 } from "./style";
-import { CSSTransition } from "react-transition-group";
-import { prefixStyle } from "../../../api/utils";
-import animations from "create-keyframe-animation";
-import ProgressBar from "../../../baseUI/progress-bar";
-import { playMode } from './../../../api/config';
-import Scroll from "../../../baseUI/scroll";
 
 function NormalPlayer(props) {
   const {
-    fullScreen,
+    full,
     song,
     mode,
     playing,
@@ -29,39 +30,51 @@ function NormalPlayer(props) {
     duration,
     currentLineNum,
     currentPlayingLyric,
-    currentLyric
+    currentLyric,
+    speed
   } = props;
-
   const {
     changeMode,
     handlePrev,
     handleNext,
     onProgressChange,
     clickPlaying,
-    toggleFullScreen,
-    togglePlayList 
+    toggleFullScreenDispatch,
+    togglePlayListDispatch,
+    clickSpeed
   } = props;
+  //处理transform的浏览器兼容问题
+  const transform = prefixStyle("transform");
 
   const normalPlayerRef = useRef();
-  const cdWrapperRef = useRef();
-  const currentState = useRef("");
   const lyricScrollRef = useRef();
+
   const lyricLineRefs = useRef([]);
-  
-  const transform = prefixStyle("transform");
+  const cdWrapperRef = useRef();
+  const [currentState, setCurrentState] = useState(0);
 
   useEffect(() => {
     if (!lyricScrollRef.current) return;
     let bScroll = lyricScrollRef.current.getBScroll();
     if (currentLineNum > 5) {
-      // 保持当前歌词在第5条的位置
       let lineEl = lyricLineRefs.current[currentLineNum - 5].current;
       bScroll.scrollToElement(lineEl, 1000);
     } else {
-      // 当前歌词行数<=5, 直接滚动到最顶端
       bScroll.scrollTo(0, 0, 1000);
     }
   }, [currentLineNum]);
+
+  const getPlayMode = () => {
+    let content;
+    if (mode === playMode.sequence) {
+      content = "&#xe625;";
+    } else if (mode === playMode.loop) {
+      content = "&#xe653;";
+    } else {
+      content = "&#xe61b;";
+    }
+    return content;
+  };
 
   const _getPosAndScale = () => {
     const targetWidth = 40;
@@ -79,9 +92,10 @@ function NormalPlayer(props) {
       scale
     };
   };
+
   const enter = () => {
     normalPlayerRef.current.style.display = "block";
-    const { x, y, scale } = _getPosAndScale();//获取miniPlayer图片中心相对normalPlayer唱片中心的偏移
+    const { x, y, scale } = _getPosAndScale();
     let animation = {
       0: {
         transform: `translate3d(${x}px,${y}px,0) scale(${scale})`
@@ -105,7 +119,6 @@ function NormalPlayer(props) {
   };
 
   const afterEnter = () => {
-    // 进入后解绑帧动画
     const cdWrapperDom = cdWrapperRef.current;
     animations.unregisterAnimation("move");
     cdWrapperDom.style.animation = "";
@@ -125,33 +138,27 @@ function NormalPlayer(props) {
     cdWrapperDom.style.transition = "";
     cdWrapperDom.style[transform] = "";
     normalPlayerRef.current.style.display = "none";
-    currentState.current = "";
-  };
-
-  const getPlayMode = () => {
-    let content;
-    if (mode === playMode.sequence) {
-      content = "&#xe625;";
-    } else if (mode === playMode.loop) {
-      content = "&#xe653;";
-    } else {
-      content = "&#xe61b;";
-    }
-    return content;
+    setCurrentState("");
   };
 
   const toggleCurrentState = () => {
-    if (currentState.current !== "lyric") {
-      currentState.current = "lyric";
+    let nextState = "";
+    if (currentState !== "lyric") {
+      nextState = "lyric";
     } else {
-      currentState.current = "";
+      nextState = "";
     }
+    setCurrentState(nextState);
   };
+
+  const clickPlayingCB = useCallback((e) => {
+    clickPlaying(e, !playing);
+  }, [clickPlaying, playing]);
 
   return (
     <CSSTransition
       classNames="normal"
-      in={fullScreen}
+      in={full}
       timeout={400}
       mountOnEnter
       onEnter={enter}
@@ -170,38 +177,51 @@ function NormalPlayer(props) {
         </div>
         <div className="background layer"></div>
         <Top className="top">
-          <div className="back"  onClick={() => toggleFullScreen(false)}>
+          <div className="back" onClick={() => toggleFullScreenDispatch(false)}>
             <i className="iconfont icon-back">&#xe662;</i>
           </div>
-          <h1 className="title">{song.name}</h1>
-          <h1 className="subtitle">{getName(song.ar)}</h1>
+          <div className="text">
+            <h1 className="title">{song.name}</h1>
+            <h1 className="subtitle">{getName(song.ar)}</h1>
+          </div>
         </Top>
         <Middle ref={cdWrapperRef} onClick={toggleCurrentState}>
           <CSSTransition
             timeout={400}
             classNames="fade"
-            in={currentState.current !== "lyric"}
+            in={currentState !== "lyric"}
           >
-            <CDWrapper style={{visibility: currentState.current !== "lyric" ? "visible" : "hidden"}}>
+            <CDWrapper
+              style={{
+                visibility:
+                  currentState !== "lyric" ? "visible" : "hidden"
+              }}
+              playing={playing}
+            >
+              <div className={`needle ${playing? '' : 'pause'}`}></div>
               <div className="cd">
                 <img
-                  className={`image play ${playing ? "" : "pause"}`}
+                  className={`image play ${playing? '' : 'pause'}`}
                   src={song.al.picUrl + "?param=400x400"}
                   alt=""
                 />
               </div>
+              {/* <CD playing={playing} image={song.al.picUrl + "?param=300x300"}></CD> */}
               <p className="playing_lyric">{currentPlayingLyric}</p>
             </CDWrapper>
           </CSSTransition>
           <CSSTransition
             timeout={400}
             classNames="fade"
-            in={currentState.current === "lyric"}
+            in={currentState === "lyric"}
           >
             <LyricContainer>
               <Scroll ref={lyricScrollRef}>
                 <LyricWrapper
-                  style={{visibility: currentState.current === "lyric" ? "visible" : "hidden"}}
+                  style={{
+                    visibility:
+                      currentState === "lyric" ? "visible" : "hidden"
+                  }}
                   className="lyric_wrapper"
                 >
                   {
@@ -227,6 +247,21 @@ function NormalPlayer(props) {
           </CSSTransition>
         </Middle>
         <Bottom className="bottom">
+          <List>
+            <span>倍速听歌</span>
+            {
+              list.map((item) => {
+                return (
+                  <ListItem 
+                    key={item.key}
+                    className={`${speed === item.key ? 'selected': ''}`} 
+                    onClick={() => clickSpeed(item.key)}>
+                      {item.name}
+                  </ListItem>
+                )
+              })
+            }
+          </List>
           <ProgressWrapper>
             <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
@@ -250,7 +285,7 @@ function NormalPlayer(props) {
             <div className="icon i-center">
               <i
                 className="iconfont"
-                onClick={e => clickPlaying(e, !playing)}
+                onClick={clickPlayingCB}
                 dangerouslySetInnerHTML={{
                   __html: playing ? "&#xe723;" : "&#xe731;"
                 }}
@@ -259,7 +294,10 @@ function NormalPlayer(props) {
             <div className="icon i-right" onClick={handleNext}>
               <i className="iconfont">&#xe718;</i>
             </div>
-            <div className="icon i-right" onClick={() => togglePlayList(true)}>
+            <div
+              className="icon i-right"
+              onClick={() => togglePlayListDispatch(true)}
+            >
               <i className="iconfont">&#xe640;</i>
             </div>
           </Operators>

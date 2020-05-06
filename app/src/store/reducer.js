@@ -6,6 +6,7 @@ import { reducer as albumReducer } from "../page/Album/store/index";
 import { reducer as singerInfoReducer } from "../page/Singer/store/index";
 import { reducer as playerReducer } from "../page/Player/store/index";
 import { reducer as searchReducer } from "../page/Search/store/index";
+import { reducer as userReducer } from "../page/User/Login/store/index";
 
 export default combineReducers({
   recommend: recommendReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   singerInfo: singerInfoReducer,
   player: playerReducer,
   search: searchReducer,
+  user: userReducer
 });

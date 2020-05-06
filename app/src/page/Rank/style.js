@@ -6,7 +6,7 @@ import style from '../../assets/global-style';
 export const Container = styled.div`
   position: fixed;
   top: 90px;
-  bottom: ${props => props.play > 0 ? "60px": 0};
+  bottom: ${props => props.play > 0?"60px": 0};
   width: 100%;
   .offical,.global {
     margin: 10px 5px;
@@ -15,7 +15,8 @@ export const Container = styled.div`
     font-size: ${style["font-size-m"]};
     color: ${style["font-color-desc"]};
   }
-`;
+`
+
 export const List = styled.ul`
   margin-top: 10px;
   padding: 0 5px;
@@ -60,7 +61,7 @@ export const ListItem = styled.li`
       color: ${style["font-color-light"]};
     }
   }
-`;
+`
 export const SongList = styled.ul`
   flex: 1;
   display: flex;
@@ -71,4 +72,4 @@ export const SongList = styled.ul`
     font-size: ${style["font-size-s"]};
     color: grey;
   }
-`;
+`

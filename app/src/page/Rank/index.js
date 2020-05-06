@@ -15,7 +15,6 @@ import { renderRoutes } from 'react-router-config';
 
 function Rank(props) {
   const { rankList:list, loading, songsCount } = props;
-
   const { getRankListDataDispatch } = props;
 
   let rankList = list ? list.toJS() : [];
@@ -26,10 +25,6 @@ function Rank(props) {
     }
     // eslint-disable-next-line
   }, []);
-
-  let globalStartIndex = filterIndex(rankList);
-  let officialList = rankList.slice(0, globalStartIndex);
-  let globalList = rankList.slice(globalStartIndex);
 
   const enterDetail = (detail) => {
     props.history.push(`/rank/${detail.id}`)
@@ -49,9 +44,9 @@ function Rank(props) {
     return (
       <List globalRank={global}>
        {
-        list.map((item) => {
+        list.map((item, index) => {
           return (
-            <ListItem key={item.coverImgId} tracks={item.tracks} onClick={() => enterDetail(item)}>
+            <ListItem key={`${item.coverImgId}${index}`} tracks={item.tracks} onClick={() => enterDetail(item)}>
               <div className="img_wrapper">
                 <img src={item.coverImgUrl} alt=""/>
                 <div className="decorate"></div>
@@ -66,6 +61,9 @@ function Rank(props) {
     )
   }
 
+  let globalStartIndex = filterIndex(rankList);
+  let officialList = rankList.slice(0, globalStartIndex);
+  let globalList = rankList.slice(globalStartIndex);
   let displayStyle = loading ? {"display":"none"}:  {"display": ""};
   return (
     <Container play={songsCount}>

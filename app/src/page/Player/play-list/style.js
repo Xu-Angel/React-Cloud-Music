@@ -40,11 +40,7 @@ export const PlayListWrapper = styled.div `
       color: ${style["font-color-desc"]};
     }
   }
-`;
-export const ScrollWrapper = styled.div`
-  height: 400px;
-  overflow: hidden;
-`;
+`
 
 export const ListHeader = styled.div `
   position: relative;
@@ -65,12 +61,18 @@ export const ListHeader = styled.div `
       font-size: ${style["font-size-ll"]};
       color: ${style["theme-color"]};
     }
+
     .clear{
       ${style.extendClick()}
       font-size: ${style["font-size-l"]};
     }
   }
 `
+export const ScrollWrapper = styled.div`
+  height: 400px;
+  overflow: hidden;
+`
+
 export const ListContent = styled.div `
   .item{
     display: flex;
@@ -78,6 +80,12 @@ export const ListContent = styled.div `
     height: 40px;
     padding: 0 30px 0 20px;
     overflow: hidden;
+    &.list-enter, &.list-exit-done{
+      height: 0;
+    }
+    &.list-enter-active, &.list-leave-active{
+      transition: all 0.1s;
+    }
     .current{
       flex: 0 0 20px;
       width: 20px;

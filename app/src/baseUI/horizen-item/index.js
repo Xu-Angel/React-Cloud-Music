@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, memo } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import styled from 'styled-components';
 import Scroll from '../scroll/index'
 import { PropTypes } from 'prop-types';
@@ -9,12 +9,12 @@ const List = styled.div`
   display: flex;
   align-items: center;
   height: 30px;
+  justify-content: center;
   overflow: hidden;
   >span:first-of-type{
     display: block;
     flex: 0 0 auto;
     padding: 5px 0;
-    margin-right: 5px;
     color: grey;
     font-size: ${style["font-size-m"]};
     vertical-align: middle;
@@ -23,7 +23,7 @@ const List = styled.div`
 const ListItem = styled.span`
   flex: 0 0 auto;
   font-size: ${style["font-size-m"]};
-  padding: 5px 8px;
+  padding: 5px 5px;
   border-radius: 10px;
   &.selected{
     color: ${style["theme-color"]};
@@ -33,11 +33,11 @@ const ListItem = styled.span`
 `
 
 function Horizen(props) {
+  const [refreshCategoryScroll, setRefreshCategoryScroll] = useState(false);
   const Category = useRef(null);
   const { list, oldVal, title } = props;
   const { handleClick } = props;
 
-  //加入初始化内容宽度的逻辑
   useEffect(() => {
     let categoryDOM = Category.current;
     let tagElems = categoryDOM.querySelectorAll("span");
@@ -45,22 +45,27 @@ function Horizen(props) {
     Array.from(tagElems).forEach(ele => {
       totalWidth += ele.offsetWidth;
     });
+    totalWidth += 2;
     categoryDOM.style.width = `${totalWidth}px`;
-  }, []);
-  
-  return ( 
-    <Scroll direction={"horizental"}>
-      <div ref={Category}>
+    setRefreshCategoryScroll(true);
+  }, [refreshCategoryScroll]);
+
+  const clickHandle = (item) => {
+    handleClick(item.key);
+  }
+  return (
+    <Scroll direction={"horizental"} refresh={true}>
+      <div ref={Category} >
         <List>
           <span>{title}</span>
           {
             list.map((item) => {
               return (
-                <ListItem 
+                <ListItem
                   key={item.key}
-                  className={`${oldVal === item.key ? 'selected': ''}`} 
-                  onClick={() => handleClick(item.key)}>
-                    {item.name}
+                  className={oldVal === item.key ? 'selected' : ''}
+                  onClick={() => clickHandle(item)}>
+                  {item.name}
                 </ListItem>
               )
             })
@@ -73,16 +78,12 @@ function Horizen(props) {
 
 Horizen.defaultProps = {
   list: [],
-  oldVal: '',
-  title: '',
   handleClick: null
 };
 
 Horizen.propTypes = {
   list: PropTypes.array,
-  oldVal: PropTypes.string,
-  title: PropTypes.string,
   handleClick: PropTypes.func
 };
- 
+
 export default memo(Horizen);

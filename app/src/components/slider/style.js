@@ -7,13 +7,14 @@ export const SliderContainer = styled.div`
   width: 100%;
   height: 100%;
   margin: auto;
-  /* overflow: hidden; */
+  background: white;
   .before{
     position: absolute;
     top: -300px;
     height: 400px;
     width: 100%;
     background: ${style["theme-color"]};
+    z-index: 1;
   }
   .slider-container{
     position: relative;

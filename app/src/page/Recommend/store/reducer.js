@@ -5,7 +5,7 @@ const defaultState = fromJS({
   bannerList: [],
   recommendList: [],
   enterLoading: true
-});
+})
 
 export default (state = defaultState, action) => {
   switch(action.type) {
